@@ -17,12 +17,7 @@
     "lint": "eslint src",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "prepare": "tsdx build"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "eslint src"
-    }
+    "prepare": "husky && tsdx build"
   },
   "prettier": {
     "printWidth": 80,
