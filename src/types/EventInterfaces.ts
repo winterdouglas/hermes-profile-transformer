@@ -45,7 +45,7 @@ export interface SharedEventProperties {
    * event arguments
    */
   args?: {
-    [key in string]: any;
+    [key in string]: unknown;
   };
 }
 

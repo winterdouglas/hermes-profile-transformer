@@ -40,9 +40,8 @@ describe(CpuProfilerModel, () => {
      */
 
     it('should create start and end events in order', () => {
-      const profileChunk: CPUProfileChunk = CpuProfilerModel.collectProfileEvents(
-        sampleProfile
-      );
+      const profileChunk: CPUProfileChunk =
+        CpuProfilerModel.collectProfileEvents(sampleProfile);
       const profiler = new CpuProfilerModel(profileChunk);
       const chromeEvents = profiler.createStartEndEvents();
       expect(chromeEvents).toMatchObject([
@@ -67,8 +66,8 @@ describe(CpuProfilerModel, () => {
       const profileChunk = CpuProfilerModel.collectProfileEvents(sampleProfile);
       const profiler = new CpuProfilerModel(profileChunk);
       const chromeEvents = profiler.createStartEndEvents();
-      const uniqueProcessIds = uniq(chromeEvents.map(event => event.pid));
-      const uniqueThreadIds = uniq(chromeEvents.map(event => event.tid));
+      const uniqueProcessIds = uniq(chromeEvents.map((event) => event.pid));
+      const uniqueThreadIds = uniq(chromeEvents.map((event) => event.tid));
       // Hermes stuff
       expect(uniqueProcessIds).toHaveLength(1);
       // Hermes stuff
@@ -81,7 +80,7 @@ describe(CpuProfilerModel, () => {
       const profileChunk = CpuProfilerModel.collectProfileEvents(sampleProfile);
       const profiler = new CpuProfilerModel(profileChunk);
       const chromeEvents = profiler.createStartEndEvents();
-      const uniquePhases = uniq(chromeEvents.map(event => event.ph));
+      const uniquePhases = uniq(chromeEvents.map((event) => event.ph));
       expect(uniquePhases).toEqual(
         expect.arrayContaining([
           EventsPhase.DURATION_EVENTS_BEGIN,

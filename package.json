@@ -1,5 +1,5 @@
 {
-  "version": "0.0.9",
+  "version": "0.0.10",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -14,13 +14,14 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
-    "lint": "tsdx lint",
+    "lint": "eslint src",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "eslint src"
     }
   },
   "prettier": {
@@ -29,7 +30,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "hermes-profile-transformer",
+  "name": "@winterdouglas/hermes-profile-transformer",
   "author": {
     "name": "Saphal Patro",
     "email": "saphal1998@gmail.com",
@@ -39,12 +40,17 @@
     "type": "git",
     "url": "https://github.com/react-native-community/hermes-profile-transformer"
   },
-  "module": "dist/hermes-tracing-profile-transformer.esm.js",
+  "module": "dist/hermes-profile-transformer.esm.js",
   "devDependencies": {
-    "husky": "^4.2.5",
-    "tsdx": "^0.13.2",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "@eslint/js": "^9.24.0",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "prettier": "3.5.3",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.1"
   },
   "dependencies": {
     "source-map": "^0.7.3"
@@ -58,5 +64,6 @@
     "react-native",
     "react-native-community",
     "react-native-cli"
-  ]
+  ],
+  "packageManager": "yarn@4.8.1"
 }

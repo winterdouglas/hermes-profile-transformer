@@ -21,8 +21,7 @@ describe('Event', () => {
     expect(event).toEqual({ ts: 1, ph: 'B' });
   });
   it('should not allow constructing event objects using wrong enum values', () => {
-    // try to create a new flow event, should fail with TypeScript error
-    // @ts-expect-error
+    // @ts-expect-error Try to create a new flow event, should fail with TypeScript error
     const event: DurationEvent = { ts: 1, ph: EventsPhase.INSTANT_EVENTS };
 
     // at runtime object is still created, but we should never be here
@@ -30,8 +29,7 @@ describe('Event', () => {
   });
 
   it('should not allow constructing event objects with phase literal at type level', () => {
-    // try to create a new flow event, should fail with TypeScript error
-    // @ts-expect-error
+    // @ts-expect-error Try to create a new flow event, should fail with TypeScript error
     const event: DurationEvent = { ts: 'ts', ph: 's' };
 
     // check that value is correct in runtime
@@ -39,8 +37,7 @@ describe('Event', () => {
   });
 
   it('should not allow coercing event objects with incorrect phase literal', () => {
-    // try to create a new flow event, should fail with TypeScript error
-    // @ts-expect-error
+    // @ts-expect-error Try to create a new flow event, should fail with TypeScript error
     const event: DurationEvent = { ts: 'ts', ph: 'NOT_s' } as DurationEvent;
 
     // check that value is correct in runtime
@@ -77,7 +74,7 @@ describe('Event', () => {
       ph: 'invalid',
     };
 
-    // @ts-expect-error
+    // @ts-expect-error Contains an invalid event type for testing purposes
     const events: Event[] = [durationEnd, durationBegin, invalid];
 
     expect(events).toEqual([
@@ -93,6 +90,7 @@ describe('Event', () => {
     // we can use a type guard
     //
     // See: https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function isDurationEvent(event: any): event is DurationEvent {
       return (
         event.ph === EventsPhase.DURATION_EVENTS_BEGIN ||
@@ -101,6 +99,7 @@ describe('Event', () => {
     }
 
     // This function expects a duration event
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function expectsDurationEvent(event: DurationEvent): any {
       return event.ph;
     }
@@ -108,8 +107,7 @@ describe('Event', () => {
     // This
     const durationEventLike = { ts: 1, ph: 'B' };
 
-    // This fails, because string `B` is not coerced to EventsPhase
-    // @ts-expect-error
+    // @ts-expect-error This fails, because string `B` is not coerced to EventsPhase
     expectsDurationEvent(durationEventLike);
 
     // But if we use our type guard first...
@@ -118,8 +116,7 @@ describe('Event', () => {
       // by checking that the value matches the expected type
       expectsDurationEvent(durationEventLike);
     } else {
-      // This will fail, because the value didn't match
-      // @ts-expect-error
+      // @ts-expect-error This will fail, because the value didn't match
       expectsDurationEvent(durationEventLike);
     }
   });

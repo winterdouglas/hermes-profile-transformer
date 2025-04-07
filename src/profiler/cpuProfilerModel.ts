@@ -140,12 +140,12 @@ export class CpuProfilerModel {
   ): DurationEvent[] {
     // Start nodes are the nodes which are present only in the currentNodeIds and not in PreviousNodeIds
     const startNodes: CPUProfileChunkNode[] = currentNodeIds
-      .filter(id => !previousNodeIds.includes(id))
-      .map(id => this._nodesById.get(id)!);
+      .filter((id) => !previousNodeIds.includes(id))
+      .map((id) => this._nodesById.get(id)!);
     // End nodes are the nodes which are present only in the PreviousNodeIds and not in CurrentNodeIds
     const endNodes: CPUProfileChunkNode[] = previousNodeIds
-      .filter(id => !currentNodeIds.includes(id))
-      .map(id => this._nodesById.get(id)!);
+      .filter((id) => !currentNodeIds.includes(id))
+      .map((id) => this._nodesById.get(id)!);
 
     /**
      * The name needs to be modified if `http://` is present as this directs us to bundle files which does not add any information for the end user
@@ -175,10 +175,10 @@ export class CpuProfilerModel {
 
     const startEvents: DurationEvent[] = startNodes
       .map(createEvent)
-      .map(evt => ({ ...evt, ph: EventsPhase.DURATION_EVENTS_BEGIN }));
+      .map((evt) => ({ ...evt, ph: EventsPhase.DURATION_EVENTS_BEGIN }));
     const endEvents: DurationEvent[] = endNodes
       .map(createEvent)
-      .map(evt => ({ ...evt, ph: EventsPhase.DURATION_EVENTS_END }));
+      .map((evt) => ({ ...evt, ph: EventsPhase.DURATION_EVENTS_END }));
     return [...endEvents.reverse(), ...startEvents];
   }
 
