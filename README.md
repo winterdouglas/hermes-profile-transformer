@@ -2,13 +2,21 @@
   Hermes Profile Transformer
 </h1>
 
-<p align="center">
+This is a fork of the original `hermes-profile-transformer` package.
+The motivation behind this fork is to make it possible to run it on the web, since the original one was made the be run on Node.
+
+## How
+
+- Dynamically loads `source-map` depending on where it's running. When running on web, it will load it through a script, otherwise it lazy loads the module.
+- Removes any direct Node dependencies that made it incompatible. That is file system integration. Instead of receiving a file path for the profile and source map, it will receive the actual data, so it's agnostic to how that was loaded.
+
+<!-- <p align="center">
 <img alt="npm" src="https://img.shields.io/npm/v/hermes-profile-transformer">
 <img alt="node-current" src="https://img.shields.io/node/v/hermes-profile-transformer">
 <img alt="npm bundle size" src="https://img.shields.io/bundlephobia/min/hermes-profile-transformer">
 <img alt="NPM" src="https://img.shields.io/npm/l/hermes-profile-transformer">
 <img alt="npm type definitions" src="https://img.shields.io/npm/types/hermes-profile-transformer">
-</p>
+</p> -->
 
 Visualize Facebook's [Hermes JavaScript runtime](https://github.com/facebook/hermes) profile traces in Chrome Developer Tools.
 
@@ -22,36 +30,27 @@ This TypeScript package converts Hermes CPU profiles to Chrome Developer Tools c
 
 ## Usage
 
-If you're using `hermes-profile-transformer` to debug React Native Android applications, you can use the [React Native CLI](https://github.com/react-native-community/cli) `react-native profile-hermes` command, which uses this package to convert the downloaded Hermes profiles automatically.
-
 ### As a standalone package
 
-```js
-const transformer = require('hermes-profile-transformer').default;
-const { writeFileSync } = require('fs');
+```ts
+import transformer from '@winterdouglas/hermes-profile-transformer';
 
-const hermesCpuProfilePath = './testprofile.cpuprofile';
-const sourceMapPath = './index.map';
 const sourceMapBundleFileName = 'index.bundle.js';
 
-transformer(
-  // profile path is required
-  hermesCpuProfilePath,
-  // source maps are optional
-  sourceMap,
-  sourceMapBundleFileName
-)
-  .then(events => {
-    // write converted trace to a file
-    return writeFileSync(
-      './chrome-supported.json',
-      JSON.stringify(events, null, 2),
-      'utf-8'
-    );
-  })
-  .catch(err => {
-    console.log(err);
-  });
+try {
+  const events = transformer(
+    // profile data is required
+    hermesCpuProfile,
+    // source maps are optional
+    sourceMap,
+    sourceMapBundleFileName
+  );
+
+  // Do something with the converted trace
+  console.log(JSON.stringify(events, null, 2));
+} catch (err) {
+  console.log(err);
+}
 ```
 
 ## Creating Hermes CPU Profiles
@@ -64,15 +63,15 @@ Open Developer Tools in Chrome, navigate to the **Performance** tab, and use the
 
 ## API
 
-### transformer(profilePath: string, sourceMapPath?: string, bundleFileName?: string)
+### transformer(hermesProfile: HermesCPUProfile, sourceMap?: SourceMap, bundleFileName?: string)
 
 #### Parameters
 
-| Parameter      | Type   | Required | Description                                                                                                                                                               |
-| -------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| profilePath    | string | Yes      | Path to a JSON-formatted `.cpuprofile` file created by the Hermes runtime                                                                                                 |
-| sourceMapPath  | string | No       | Path to a [source-map](https://www.npmjs.com/package/source-map) compatible Source Map file                                                                               |
-| bundleFileName | string | No       | If `sourceMapPath` is provided, you need to also provide the name of the JavaScript bundle file that the source map applies to. This file does not need to exist on disk. |
+| Parameter      | Type             | Required | Description                                                                                                                                                               |
+| -------------- | ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hermesProfile  | HermesCPUProfile | Yes      | JSON-formatted `.cpuprofile` file created by the Hermes runtime                                                                                                           |
+| sourceMap      | SourceMap        | No       | JSON-formatted [source-map](https://www.npmjs.com/package/source-map) compatible Source Map file                                                                          |
+| bundleFileName | string           | No       | If `sourceMapPath` is provided, you need to also provide the name of the JavaScript bundle file that the source map applies to. This file does not need to exist on disk. |
 
 #### Returns
 
