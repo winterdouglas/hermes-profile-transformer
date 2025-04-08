@@ -2,13 +2,12 @@
   Hermes Profile Transformer
 </h1>
 
-This is a fork of the original `react-native-community/hermes-profile-transformer` package.
-The motivation behind this is to make it possible to run it on the web, since the original one was ran on Node.
+This is a fork of the original `react-native-community/hermes-profile-transformer` package used by the react native cli.
+The motivation behind this is to make it possible to run it on the web, since the original one targeted Node only.
 
 ## How
 
-- Dynamically loads `source-map` depending on where it's running: When running on web, it will be loaded by a script, otherwise it lazy imports the module.
-- Removes any direct Node dependencies that made it incompatible. That is file system integration. Instead of receiving a file path for the profile and source map, it will receive the actual data, so it's agnostic to how that was loaded.
+Removes any direct Node dependencies that made it incompatible. Instead of receiving a file path for the profile and source map, it will receive the actual data, so it's agnostic to how that is loaded.
 
 <!-- <p align="center">
 <img alt="npm" src="https://img.shields.io/npm/v/hermes-profile-transformer">
