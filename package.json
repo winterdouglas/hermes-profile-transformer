@@ -7,9 +7,6 @@
     "dist",
     "src"
   ],
-  "engines": {
-    "node": ">=8"
-  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -27,13 +24,12 @@
   },
   "name": "@winterdouglas/hermes-profile-transformer",
   "author": {
-    "name": "Saphal Patro",
-    "email": "saphal1998@gmail.com",
-    "url": "http://github.com/saphal1998"
+    "name": "Douglas Winter",
+    "url": "http://github.com/winterdouglas"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-native-community/hermes-profile-transformer"
+    "url": "https://github.com/winterdouglas/hermes-profile-transformer"
   },
   "module": "dist/hermes-profile-transformer.esm.js",
   "devDependencies": {

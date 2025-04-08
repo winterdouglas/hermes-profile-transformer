@@ -1,9 +1,13 @@
 import path from 'path';
+import { SourceMapConsumer } from 'source-map';
 import type { RawSourceMap } from 'source-map';
 
 import { DurationEvent } from '../types/EventInterfaces';
 import { SourceMap } from '../types/SourceMap';
-import { loadPackage } from '../utils/loadPackage';
+
+// This is not ideal, but it's required by the source-map library to load the WASM file
+const SOURCE_MAP_VERSION = '0.7.3';
+const SOURCE_MAP_WASM_URL = `https://unpkg.com/source-map@${SOURCE_MAP_VERSION}/lib/mappings.wasm`;
 
 /**
  * This function is a helper to the applySourceMapsToEvents. The node_module identification logic is implemented here based on the sourcemap url (if available). Incase a node_module could not be found, this defaults to the category of the event
@@ -73,8 +77,12 @@ const applySourceMapsToEvents = async (
     names: sourceMap.names,
   };
 
-  const srcMap = await loadPackage();
-  const consumer = await new srcMap.SourceMapConsumer(rawSourceMap);
+  if (typeof window !== 'undefined') {
+    SourceMapConsumer.initialize({
+      'lib/mappings.wasm': SOURCE_MAP_WASM_URL,
+    });
+  }
+  const consumer = await new SourceMapConsumer(rawSourceMap);
   const events = chromeEvents.map((event: DurationEvent) => {
     if (event.args) {
       const sm = consumer.originalPositionFor({
